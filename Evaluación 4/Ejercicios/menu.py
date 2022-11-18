@@ -10,7 +10,7 @@ def iniciar():
         print('[3] Ejercicio 3: Las 7 maravillas')
         print('[4] Salir del menú')
 
-        opcion = input('\n> ')
+        opcion = input('> ')
 
         if opcion == '1':
             pass
@@ -22,8 +22,8 @@ def iniciar():
             pass
 
         elif opcion == '4':
-            print('Saliendo...\n')
+            print('\nSaliendo...')
             break
 
         else:
-            print('Selecciona una opción correcta, inténtelo de nuevo\n')
+            print('\nTiene que seleccionar una opción correcta, inténtelo de nuevo\n')
