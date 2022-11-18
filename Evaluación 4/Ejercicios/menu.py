@@ -1,3 +1,5 @@
+import ejercicio1, ejercicio2, ejercicio3
+
 def iniciar():
 
     while True:
