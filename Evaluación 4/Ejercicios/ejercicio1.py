@@ -77,9 +77,3 @@ def descomprimir(codigo, raiz):
 
     mensaje.append(nodo.simbolo)
     return ''.join(mensaje)
-
-simbolos = ['A', 'F', '1', '3', '0', 'M', 'T']
-frecuencias = [0.2, 0.17, 0.13, 0.21, 0.05, 0.09, 0.15]
-raiz = arbol_huffman(simbolos, frecuencias)
-print(comprimir('M0T0', raiz))
-print(descomprimir('101110101101010', raiz))
