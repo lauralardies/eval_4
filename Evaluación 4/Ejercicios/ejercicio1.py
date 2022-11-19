@@ -2,16 +2,21 @@ class NodoArbol:
     def __init__(self, simbolo, freq):
         self.izq = None
         self.der = None
+        self.padre = None
         self.simbolo = simbolo
         self.freq = freq
 
-def insertar_nodo(raiz, dato):
-    if raiz is None:
-        raiz = NodoArbol(dato)
-    elif dato < raiz.freq:
-        raiz.izq = insertar_nodo(raiz.der, dato)
-    else:
-        raiz.der = insertar_nodo(raiz.der, dato)
+def buscar(raiz, clave):
+    pos = None
+    if raiz is not None:
+        if raiz.simbolo == clave: # Nos salimos cuando encontramos en nod que buscamos
+            pos = raiz
+            return pos
+        if pos == None:
+            pos = buscar(raiz.izq,clave)
+        if pos == None:
+            pos = buscar(raiz.der,clave)
+    return pos
 
 def ordenar_objetos(lista):
     lista = sorted(lista, key=lambda x: x.simbolo) # Primero ordenamos alfabéticamente
@@ -36,12 +41,29 @@ def arbol_huffman(simbolos, frecuencias):
     while len(nodos) > 1:
         nodo = NodoArbol('XX', nodos[0].freq + nodos[1].freq) # Creamos un nuevo nodo al que no le corresponde ningún símbolo
         nodo.izq = nodos[0]
+        nodo.izq.padre = nodo
         nodo.der = nodos[1]
+        nodo.der.padre = nodo
         nodos = insertar_nodo_huffman(nodos, nodo)
         nodos.pop(1)
         nodos.pop(0)
-    return nodos
+    return nodos[0]
+
+def comprimir(mensaje, raiz):
+    codigo = []
+    mensaje = mensaje[::-1]
+    for m in mensaje:
+        nodo = buscar(raiz, m)
+        while nodo.padre is not None:
+            if nodo.padre.izq == nodo:
+                codigo.append('0')
+            else:
+                codigo.append('1')
+            nodo = nodo.padre
+    codigo = codigo[::-1]
+    return ''.join(codigo)
 
 simbolos = ['A', 'F', '1', '3', '0', 'M', 'T']
 frecuencias = [0.2, 0.17, 0.13, 0.21, 0.05, 0.09, 0.15]
-lista = arbol_huffman(simbolos, frecuencias)
+raiz = arbol_huffman(simbolos, frecuencias)
+print(comprimir('M0T0', raiz))
