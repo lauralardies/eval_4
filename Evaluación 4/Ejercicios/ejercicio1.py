@@ -63,7 +63,23 @@ def comprimir(mensaje, raiz):
     codigo = codigo[::-1]
     return ''.join(codigo)
 
+def descomprimir(codigo, raiz):
+    mensaje = []
+    nodo = raiz
+    for c in codigo:
+        if nodo.der is None: # Vemos si el nodo es hoja
+            mensaje.append(nodo.simbolo)
+            nodo = raiz
+        if c == '0':
+            nodo = nodo.izq
+        else:
+            nodo = nodo.der
+
+    mensaje.append(nodo.simbolo)
+    return ''.join(mensaje)
+
 simbolos = ['A', 'F', '1', '3', '0', 'M', 'T']
 frecuencias = [0.2, 0.17, 0.13, 0.21, 0.05, 0.09, 0.15]
 raiz = arbol_huffman(simbolos, frecuencias)
 print(comprimir('M0T0', raiz))
+print(descomprimir('101110101101010', raiz))
