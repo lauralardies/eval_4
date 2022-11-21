@@ -20,8 +20,16 @@ def iniciar():
             raiz = ejercicio1.arbol_huffman(simbolos, frecuencias)
             print('\nMi tabla de símbolos es', simbolos)
             print('Con sus correspondientes frecuencias', frecuencias)
-            print('\nSi codificamos la palabra M0T0 obtenemos el siguiente resultado\n', ejercicio1.comprimir('M0T0', raiz))
-            print('\nSi decodificamos ese código obtenemos la palabra inicial\n', ejercicio1.descomprimir('101110101101010', raiz))
+            print('\nObtenemos los siguientes códigos por cada símbolo:')
+            print('A: ', ejercicio1.comprimir('A', raiz))
+            print('F: ', ejercicio1.comprimir('F', raiz))
+            print('1: ', ejercicio1.comprimir('1', raiz))
+            print('3: ', ejercicio1.comprimir('3', raiz))
+            print('0: ', ejercicio1.comprimir('0', raiz))
+            print('M: ', ejercicio1.comprimir('M', raiz))
+            print('T: ', ejercicio1.comprimir('T', raiz))
+            print('\nSi codificamos la palabra M0T0 obtenemos el siguiente resultado:', ejercicio1.comprimir('M0T0', raiz))
+            print('Si decodificamos ese código obtenemos la palabra inicial:', ejercicio1.descomprimir('101110101101010', raiz))
 
         elif opcion == '2':
             pass
