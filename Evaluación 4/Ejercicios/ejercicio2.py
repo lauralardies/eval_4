@@ -55,6 +55,21 @@ def print_nodo(ruta, nodo):
             if i[0] == nodo.num:
                 return 'Pokémon número {}, {} de tipo {} y {} con\nTotal: {}\nHP: {}\nAttack: {}\nDefense: {}\nSp. Atk: {}\nSp. Def: {}\nSpeed: {}\nGeneration: {}\nLegendary: {}'.format(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9], i[10], i[11], i[12])
 
+def print_nombres(ruta, nodo):
+    with open(ruta, 'r') as archivo:
+        lector = reader(archivo)
+        for i in lector:
+            if i[0] == nodo.num:
+                return i[1]
+
+def buscar_tipo(raiz, clave, pos = []):
+    if raiz is not None:
+        if raiz.tipo == clave:
+            pos.append(raiz)
+        pos = buscar_tipo(raiz.izq, clave, pos)
+        pos = buscar_tipo(raiz.der, clave, pos)
+    return pos
+
 def buscar_num(raiz, clave):
     pos = None
     if raiz is not None:
@@ -71,8 +86,8 @@ def buscar_nom(raiz, clave, pos = []):
     if raiz is not None:
         if raiz.nombre.startswith(clave):
             pos.append(raiz)
-        pos = (buscar_nom(raiz.izq, clave, pos))
-        pos = (buscar_nom(raiz.der, clave, pos))
+        pos = buscar_nom(raiz.izq, clave, pos)
+        pos = buscar_nom(raiz.der, clave, pos)
     return pos
 
 ruta = 'Evaluación 4/Ejercicios/pokemon.csv'
@@ -86,3 +101,12 @@ r = buscar_nom(nombres, 'Bee')
 
 for i in r:
     print(print_nodo(ruta, i))
+
+fuego = buscar_tipo(tipos, 'Fire')
+agua = buscar_tipo(tipos, 'Water')
+planta = buscar_tipo(tipos, 'Grass')
+elec = buscar_tipo(tipos, 'Electric')
+
+print(len(fuego))
+for f in fuego:
+    print(print_nombres(ruta, f))
