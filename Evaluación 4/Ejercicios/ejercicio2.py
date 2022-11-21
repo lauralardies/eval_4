@@ -54,7 +54,10 @@ def busqueda_num(ruta, numero):
         for i in lector:
             if i[0] == numero:
                 return i
+            else:
+                return 'No existe este número de Pokemon'
 
 ruta = 'Evaluación 4/Ejercicios/pokemon.csv'
 nombres, numeros, tipos = crear_arboles(ruta)
 print(busqueda_num(ruta, '6'))
+print(busqueda_num(ruta, '-9'))
