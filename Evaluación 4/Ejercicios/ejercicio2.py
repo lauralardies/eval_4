@@ -48,5 +48,13 @@ def crear_arboles(ruta):
                 tipos = arbol_nombre(tipos, i[1], i[0], i[2])
     return nombres, numeros, tipos
 
+def busqueda_num(ruta, numero):
+    with open(ruta, 'r') as archivo:
+        lector = reader(archivo)
+        for i in lector:
+            if i[0] == numero:
+                return i
+
 ruta = 'Evaluación 4/Ejercicios/pokemon.csv'
 nombres, numeros, tipos = crear_arboles(ruta)
+print(busqueda_num(ruta, '6'))
