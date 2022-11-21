@@ -54,10 +54,25 @@ def busqueda_num(ruta, numero):
         for i in lector:
             if i[0] == numero:
                 return i
-            else:
-                return 'No existe este número de Pokemon'
+        return 'No existe este número de Pokemon'
+
+def busqueda_nom(ruta, nombre):
+    with open(ruta, 'r') as archivo:
+        lector = reader(archivo)
+        sol = []
+        for i in lector:
+            if i[1].startswith(nombre):
+                sol.append(i)
+        if len(sol) > 0:
+            return sol
+        else:
+            return 'No existen Pokemons con este nombre'
 
 ruta = 'Evaluación 4/Ejercicios/pokemon.csv'
 nombres, numeros, tipos = crear_arboles(ruta)
+
 print(busqueda_num(ruta, '6'))
 print(busqueda_num(ruta, '-9'))
+
+print(busqueda_nom(ruta, 'Bee'))
+print(busqueda_nom(ruta, 'Zorz'))
