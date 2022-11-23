@@ -6,8 +6,12 @@ class NodoArbol:
         self.der = None
         self.info = info
         self.linea = linea
-        
+
+# Creamos árboles
 def arbol(raiz, info, linea):
+    '''
+    Función que nos crea un árbol cualquiera
+    '''
     if raiz is None:
         raiz = NodoArbol(info, linea)
     elif info > raiz.info:
@@ -17,6 +21,9 @@ def arbol(raiz, info, linea):
     return raiz
 
 def crear_arboles(ruta):
+    '''
+    Función donde especificamos los árboles a crear a partir del csv
+    '''
     with open(ruta, 'r') as archivo:
         lector = reader(archivo)
         nombres, numeros, tipos = None, None, None
@@ -29,6 +36,7 @@ def crear_arboles(ruta):
                 tipos = arbol(tipos, i[2], linea)
     return nombres, numeros, tipos
 
+# Mostramos en pantalla el nodo
 def print_info(ruta, lista, nombre):
     sol = []
     if len(lista) == 0:
@@ -49,7 +57,11 @@ def print_info(ruta, lista, nombre):
     
     return '\n\n'.join(sol)
 
+# Apartados 1, 2 y 3
 def buscar(raiz, clave, pos):
+    '''
+    Función que busca en un árbol la clave dada
+    '''
     if raiz is not None:
         if raiz.info == clave and raiz not in pos:
             pos.append(raiz)
@@ -58,6 +70,9 @@ def buscar(raiz, clave, pos):
     return pos
 
 def filtrar(raiz, clave, pos):
+    '''
+    Función que busca en un árbol parte de la clave dada
+    '''
     if raiz is not None:
         if clave in raiz.info and raiz not in pos:
             pos.append(raiz)
@@ -65,17 +80,11 @@ def filtrar(raiz, clave, pos):
         pos = filtrar(raiz.der, clave, pos)
     return pos
 
-def valores_unicos(raiz, unicos):
-    if raiz is not None:
-        if raiz.info not in unicos:
-            unicos[raiz.info] = 1
-        else:
-            unicos[raiz.info] = unicos[raiz.info] + 1
-        unicos = valores_unicos(raiz.izq, unicos)
-        unicos = valores_unicos(raiz.der, unicos)
-    return unicos
-
+# Apartado 6
 def buscar_tipo(ruta, dato):
+    '''
+    A partir de otro dato como por ejemplo el nombre, buscamos el tipo de dicho Pokémon
+    '''
     with open(ruta, 'r') as archivo:
         lector = reader(archivo)
         for i, fila in enumerate(lector):
@@ -83,6 +92,9 @@ def buscar_tipo(ruta, dato):
                 return fila[2]
 
 def debil(ruta, tipo):
+    '''
+    A partir de un tipo de Pokémon, analizamos qué Pokémons son débiles a este tipo 
+    '''
     with open(ruta, 'r') as archivo:
         lector = reader(archivo)
         debiles = None
@@ -93,3 +105,18 @@ def debil(ruta, tipo):
                 debiles = arbol(debiles, i[3], linea)
     sol = buscar(debiles, tipo, pos = [])
     return sol
+
+# Apartado 7
+def valores_unicos(raiz, unicos):
+    '''
+    Crea un diccionario de los valores de la raiz cuyos valores son el número de ocurrencias que hay en el csv
+    Al tratarse de un diccionario, nuestros keys no se repiten y conseguimos los valores únicos
+    '''
+    if raiz is not None:
+        if raiz.info not in unicos:
+            unicos[raiz.info] = 1
+        else:
+            unicos[raiz.info] = unicos[raiz.info] + 1
+        unicos = valores_unicos(raiz.izq, unicos)
+        unicos = valores_unicos(raiz.der, unicos)
+    return unicos
