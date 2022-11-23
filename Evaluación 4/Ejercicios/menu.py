@@ -53,24 +53,24 @@ def iniciar():
                 if apartado == '1':
                     print('\nIntroduce el número de Pokémon que quiere buscar:')
                     n = input('> ')
-                    print('\n', ejercicio2.print_nodo(ruta, ejercicio2.buscar_num(numeros, n, pos = [])), '\n')
+                    print('\n', '\n\n'.join(ejercicio2.print_info(ruta, ejercicio2.buscar(numeros, n, pos = []), False)), '\n')
                     
                 elif apartado == '2':
                     print('\nIntroduce el nombre de Pokémon que quiere buscar:')
                     n = input('> ')
-                    print('\n', ejercicio2.print_nodo(ruta, ejercicio2.buscar_nom(nombres, n, pos = [])), '\n')
+                    print('\n', '\n\n'.join(ejercicio2.print_info(ruta, ejercicio2.filtrar(nombres, n, pos = []), False)), '\n')
 
                 elif apartado == '3':
                     while True:
                         print('\n¿Qué tipo de Pokémon quiere mostrar? ¿Fire? ¿Water? ¿Grass? ¿Electric?')
                         print('Inserta el tipo de Pokémon que quiere mostrar de los nombrados anteriormente:')
                         tipo = input('> ')
-                        if len(ejercicio2.buscar_tipo(tipos, tipo, pos = [])) is 0:
+                        if len(ejercicio2.buscar(tipos, tipo, pos = [])) is 0:
                             print('No ha insertado un tipo de Pokémon correcto, inténtelo de nuevo.')
                         else:
-                            print('\n', ejercicio2.print_nombre(ejercicio2.buscar_tipo(tipos, tipo, pos = [])), '.\n')
+                            print('\n', ', '.join(ejercicio2.print_info(ruta, ejercicio2.buscar(tipos, tipo, pos = []), True)), '.\n')
                             break
-                    
+
                 elif apartado == '4':
                     print('Apartado no hecho')
 

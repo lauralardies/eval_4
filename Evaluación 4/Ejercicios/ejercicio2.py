@@ -1,38 +1,27 @@
 from csv import reader
 
 class NodoArbol:
-    def __init__(self, nombre, num, tipo):
+    def __init__(self, info):
         self.izq = None
         self.der = None
-        self.nombre = nombre
-        self.num = num
-        self.tipo = tipo
-
-def arbol_nombre(raiz, nombre, num, tipo):
+        self.info = info
+        
+def arbol_alpha(raiz, info):
     if raiz is None:
-        raiz = NodoArbol(nombre, num, tipo)
-    elif nombre > raiz.nombre:
-        raiz.der = arbol_numero(raiz.der, nombre, num, tipo)
+        raiz = NodoArbol(info)
+    elif info > raiz.info:
+        raiz.der = arbol_alpha(raiz.der, info)
     else:
-        raiz.izq = arbol_numero(raiz.izq, nombre, num, tipo)
+        raiz.izq = arbol_alpha(raiz.izq, info)
     return raiz
 
-def arbol_numero(raiz, nombre, num, tipo):
+def arbol_num(raiz, info):
     if raiz is None:
-        raiz = NodoArbol(nombre, num, tipo)
-    elif num < raiz.num:
-        raiz.der = arbol_numero(raiz.der, nombre, num, tipo)
+        raiz = NodoArbol(info)
+    elif info < raiz.info:
+        raiz.der = arbol_num(raiz.der, info)
     else:
-        raiz.izq = arbol_numero(raiz.izq, nombre, num, tipo)
-    return raiz
-
-def arbol_nombre(raiz, nombre, num, tipo):
-    if raiz is None:
-        raiz = NodoArbol(nombre, num, tipo)
-    elif tipo > raiz.tipo:
-        raiz.der = arbol_numero(raiz.der, nombre, num, tipo)
-    else:
-        raiz.izq = arbol_numero(raiz.izq, nombre, num, tipo)
+        raiz.izq = arbol_num(raiz.izq, info)
     return raiz
 
 def crear_arboles(ruta):
@@ -40,15 +29,13 @@ def crear_arboles(ruta):
         lector = reader(archivo)
         nombres, numeros, tipos = None, None, None
         for i in lector:
-            if i == ['#', 'Name', 'Type 1', 'Type 2', 'Total', 'HP', 'Attack', 'Defense', 'Sp. Atk', 'Sp. Def', 'Speed', 'Generation', 'Legendary']:
-                pass
-            else:
-                nombres = arbol_nombre(nombres, i[1], i[0], i[2])
-                numeros = arbol_numero(numeros, i[1], i[0], i[2])
-                tipos = arbol_nombre(tipos, i[1], i[0], i[2])
+            if i != ['#', 'Name', 'Type 1', 'Type 2', 'Total', 'HP', 'Attack', 'Defense', 'Sp. Atk', 'Sp. Def', 'Speed', 'Generation', 'Legendary']:
+                nombres = arbol_alpha(nombres, i[1])
+                numeros = arbol_num(numeros, i[0])
+                tipos = arbol_alpha(tipos, i[2])
     return nombres, numeros, tipos
 
-def print_nodo(ruta, lista):
+def print_info(ruta, lista, nombre):
     sol = []
     if len(lista) == 0:
         return 'No se ha encontrado ningún Pokémon con los datos aportados.'
@@ -56,64 +43,55 @@ def print_nodo(ruta, lista):
         with open(ruta, 'r') as archivo:
             lector = reader(archivo)
             for i in lector:
-                if i[1] == l.nombre:
-                    sol.append('Pokémon número {}, {} de tipo {} y {} con\nTotal: {}.\nHP: {}.\nAttack: {}.\nDefense: {}.\nSp. Atk: {}.\nSp. Def: {}.\nSpeed: {}.\nGeneration: {}.\nLegendary: {}.'.format(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9], i[10], i[11], i[12]))
-    return '\n\n'.join(sol)
+                for j in range(len(i)):
+                    if i[j] == l.info:
+                        if nombre == True and i[1] not in sol:
+                            sol.append(i[1])
+                            break
+                        else:
+                            sol.append('Pokémon número {}, {} de tipo {} y {} con\nTotal: {}.\nHP: {}.\nAttack: {}.\nDefense: {}.\nSp. Atk: {}.\nSp. Def: {}.\nSpeed: {}.\nGeneration: {}.\nLegendary: {}.'.format(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9], i[10], i[11], i[12]))
+                            break
+    return sol
 
-def print_nombre(lista):
-    sol = []
-    if len(lista) == 0:
-        return 'No se ha encontrado ningún Pokémon con los datos aportados.'
-    for l in lista:
-        sol.append(l.nombre)
-    return ', '.join(sol)
-
-def buscar_tipo(raiz, clave, pos):
+def buscar(raiz, clave, pos):
     if raiz is not None:
-        if raiz.tipo == clave and raiz not in pos:
+        if raiz.info == clave and raiz not in pos:
             pos.append(raiz)
-        pos = buscar_tipo(raiz.izq, clave, pos)
-        pos = buscar_tipo(raiz.der, clave, pos)
+        pos = buscar(raiz.izq, clave, pos)
+        pos = buscar(raiz.der, clave, pos)
     return pos
 
-def buscar_num(raiz, clave, pos):
+def filtrar(raiz, clave, pos):
     if raiz is not None:
-        if raiz.num == clave and raiz not in pos:
+        if raiz.info.startswith(clave) and raiz not in pos:
             pos.append(raiz)
-        pos = buscar_nom(raiz.izq, clave, pos)
-        pos = buscar_nom(raiz.der, clave, pos)
+        pos = filtrar(raiz.izq, clave, pos)
+        pos = filtrar(raiz.der, clave, pos)
     return pos
 
-def buscar_nom(raiz, clave, pos):
+def valores_unicos(raiz, unicos):
     if raiz is not None:
-        if raiz.nombre.startswith(clave) and raiz not in pos:
-            pos.append(raiz)
-        pos = buscar_nom(raiz.izq, clave, pos)
-        pos = buscar_nom(raiz.der, clave, pos)
-    return pos
-
-def tipos_unicos(raiz, unicos):
-    if raiz is not None:
-        if raiz.tipo not in unicos:
-            unicos[raiz.tipo] = 1
+        if raiz.info not in unicos:
+            unicos[raiz.info] = 1
         else:
-            unicos[raiz.tipo] = unicos[raiz.tipo] + 1
-        unicos = tipos_unicos(raiz.izq, unicos)
-        unicos = tipos_unicos(raiz.der, unicos)
+            unicos[raiz.info] = unicos[raiz.info] + 1
+        unicos = valores_unicos(raiz.izq, unicos)
+        unicos = valores_unicos(raiz.der, unicos)
     return unicos
 
 ruta = 'Evaluación 4/Ejercicios/pokemon.csv'
 nombres, numeros, tipos = crear_arboles(ruta)
 
-s = buscar_num(numeros, '6', pos = [])
-g = buscar_num(numeros, '-9', pos = [])
+s = buscar(numeros, '6', pos = [])
+g = buscar(numeros, '-9', pos = [])
 
-l = buscar_nom(nombres, 'Zorz', pos = [])
-r = buscar_nom(nombres, 'Bee', pos = [])
+l = filtrar(nombres, 'Zorz', pos = [])
+r = filtrar(nombres, 'Bur', pos = [])
 
-fuego = buscar_tipo(tipos, 'Fire', pos = [])
-agua = buscar_tipo(tipos, 'Water', pos = [])
-planta = buscar_tipo(tipos, 'Grass', pos = [])
-elec = buscar_tipo(tipos, 'Electric', pos = [])
+fuego = buscar(tipos, 'Fire', pos = [])
+agua = buscar(tipos, 'Water', pos = [])
+planta = buscar(tipos, 'Grass', pos = [])
+elec = buscar(tipos, 'Electric', pos = [])
 
-print(tipos_unicos(tipos, unicos = {}))
+print(valores_unicos(tipos, unicos = {}))
+print(', '.join(print_info(ruta, fuego, True)))
