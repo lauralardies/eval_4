@@ -45,11 +45,13 @@ def print_info(ruta, lista, nombre):
             for i in lector:
                 for j in range(len(i)):
                     if i[j] == l.info:
-                        if nombre == True and i[1] not in sol:
+                        if nombre == True and j != 3:
                             sol.append(i[1])
                             break
+                        elif nombre == False:
+                            sol.append('Pokémon número {}, {} de tipo {} y débil ante {} con\nTotal: {}.\nHP: {}.\nAttack: {}.\nDefense: {}.\nSp. Atk: {}.\nSp. Def: {}.\nSpeed: {}.\nGeneration: {}.\nLegendary: {}.'.format(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9], i[10], i[11], i[12]))
+                            break
                         else:
-                            sol.append('Pokémon número {}, {} de tipo {} y {} con\nTotal: {}.\nHP: {}.\nAttack: {}.\nDefense: {}.\nSp. Atk: {}.\nSp. Def: {}.\nSpeed: {}.\nGeneration: {}.\nLegendary: {}.'.format(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9], i[10], i[11], i[12]))
                             break
     return sol
 
@@ -79,19 +81,11 @@ def valores_unicos(raiz, unicos):
         unicos = valores_unicos(raiz.der, unicos)
     return unicos
 
-ruta = 'Evaluación 4/Ejercicios/pokemon.csv'
-nombres, numeros, tipos = crear_arboles(ruta)
-
-s = buscar(numeros, '6', pos = [])
-g = buscar(numeros, '-9', pos = [])
-
-l = filtrar(nombres, 'Zorz', pos = [])
-r = filtrar(nombres, 'Bur', pos = [])
-
-fuego = buscar(tipos, 'Fire', pos = [])
-agua = buscar(tipos, 'Water', pos = [])
-planta = buscar(tipos, 'Grass', pos = [])
-elec = buscar(tipos, 'Electric', pos = [])
-
-print(valores_unicos(tipos, unicos = {}))
-print(', '.join(print_info(ruta, fuego, True)))
+def debil(ruta, raiz):
+    sol = []
+    with open(ruta, 'r') as archivo:
+        lector = reader(archivo)
+        for i in lector:
+            if i[3] == raiz.info:
+                sol.append(i[1])
+    return sol

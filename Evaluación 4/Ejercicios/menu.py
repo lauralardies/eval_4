@@ -78,10 +78,12 @@ def iniciar():
                     print('Apartado no hecho')
 
                 elif apartado == '6':
-                    print('Apartado no hecho')
+                    print('\n¿Frente a qué Pokémon quiere ver que sean débiles otros Pokémons? ¿Jolteon? ¿Lycanroc? ¿Tyrantrum?')
+                    print('Inserta un Pokémon que quiere de los nombrados anteriormente:')
+                    pok = input('> ')
 
                 elif apartado == '7':
-                    dictio = ejercicio2.tipos_unicos(tipos, unicos = {})
+                    dictio = ejercicio2.valores_unicos(tipos, unicos = {})
                     print('\nLos tipos de Pokémons son los siguientes:')
                     for tipo in dictio:
                         print(tipo, ':', dictio[tipo], '.')
