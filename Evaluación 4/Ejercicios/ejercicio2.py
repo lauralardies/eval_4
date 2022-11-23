@@ -57,7 +57,7 @@ def print_nodo(ruta, lista):
             lector = reader(archivo)
             for i in lector:
                 if i[1] == l.nombre:
-                    sol.append('Pokémon número {}, {} de tipo {} y {} con\nTotal: {}\nHP: {}\nAttack: {}\nDefense: {}\nSp. Atk: {}\nSp. Def: {}\nSpeed: {}\nGeneration: {}\nLegendary: {}'.format(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9], i[10], i[11], i[12]))
+                    sol.append('Pokémon número {}, {} de tipo {} y {} con\nTotal: {}.\nHP: {}.\nAttack: {}.\nDefense: {}.\nSp. Atk: {}.\nSp. Def: {}.\nSpeed: {}.\nGeneration: {}.\nLegendary: {}.'.format(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9], i[10], i[11], i[12]))
     return '\n\n'.join(sol)
 
 def print_nombre(lista):
@@ -92,6 +92,14 @@ def buscar_nom(raiz, clave, pos):
         pos = buscar_nom(raiz.der, clave, pos)
     return pos
 
+def valores_unicos(raiz, unicos):
+    if raiz is not None:
+        if raiz.tipo not in unicos:
+            unicos.append(raiz.tipo)
+        unicos = valores_unicos(raiz.izq, unicos)
+        unicos = valores_unicos(raiz.der, unicos)
+    return unicos
+
 ruta = 'Evaluación 4/Ejercicios/pokemon.csv'
 nombres, numeros, tipos = crear_arboles(ruta)
 
@@ -106,5 +114,4 @@ agua = buscar_tipo(tipos, 'Water', pos = [])
 planta = buscar_tipo(tipos, 'Grass', pos = [])
 elec = buscar_tipo(tipos, 'Electric', pos = [])
 
-print(print_nodo(ruta, l))
-print(print_nodo(ruta, r))
+print(', '.join(valores_unicos(tipos, unicos = [])), '.\n')
