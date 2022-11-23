@@ -48,43 +48,41 @@ def crear_arboles(ruta):
                 tipos = arbol_nombre(tipos, i[1], i[0], i[2])
     return nombres, numeros, tipos
 
-def print_nodo(ruta, nodo):
-    with open(ruta, 'r') as archivo:
-        lector = reader(archivo)
-        for i in lector:
-            if i[0] == nodo.num:
-                return 'Pokémon número {}, {} de tipo {} y {} con\nTotal: {}\nHP: {}\nAttack: {}\nDefense: {}\nSp. Atk: {}\nSp. Def: {}\nSpeed: {}\nGeneration: {}\nLegendary: {}'.format(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9], i[10], i[11], i[12])
+def print_nodo(ruta, lista):
+    if len(lista) == 0:
+        return 'No se ha encontrado ningún Pokémon con los datos aportados.'
+    for l in lista:
+        with open(ruta, 'r') as archivo:
+            lector = reader(archivo)
+            for i in lector:
+                if i[0] == l.num:
+                    return 'Pokémon número {}, {} de tipo {} y {} con\nTotal: {}\nHP: {}\nAttack: {}\nDefense: {}\nSp. Atk: {}\nSp. Def: {}\nSpeed: {}\nGeneration: {}\nLegendary: {}'.format(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9], i[10], i[11], i[12])
 
-def print_nombres(ruta, nodo):
-    with open(ruta, 'r') as archivo:
-        lector = reader(archivo)
-        for i in lector:
-            if i[0] == nodo.num:
-                return i[1]
+def print_nombre(lista):
+    if len(lista) == 0:
+        return 'No se ha encontrado ningún Pokémon con los datos aportados.'
+    for l in lista:
+        return l.nombre
 
-def buscar_tipo(raiz, clave, pos = []):
+def buscar_tipo(raiz, clave, pos):
     if raiz is not None:
-        if raiz.tipo == clave:
+        if raiz.tipo == clave and raiz not in pos:
             pos.append(raiz)
         pos = buscar_tipo(raiz.izq, clave, pos)
         pos = buscar_tipo(raiz.der, clave, pos)
     return pos
 
-def buscar_num(raiz, clave):
-    pos = None
+def buscar_num(raiz, clave, pos):
     if raiz is not None:
-        if raiz.num == clave: # Nos salimos cuando encontramos en nod que buscamos
-            pos = raiz
-            return pos
-        if pos == None:
-            pos = buscar_num(raiz.izq,clave)
-        if pos == None:
-            pos = buscar_num(raiz.der,clave)
+        if raiz.num == clave and raiz not in pos:
+            pos.append(raiz)
+        pos = buscar_nom(raiz.izq, clave, pos)
+        pos = buscar_nom(raiz.der, clave, pos)
     return pos
 
-def buscar_nom(raiz, clave, pos = []):
+def buscar_nom(raiz, clave, pos):
     if raiz is not None:
-        if raiz.nombre.startswith(clave):
+        if raiz.nombre.startswith(clave) and raiz not in pos:
             pos.append(raiz)
         pos = buscar_nom(raiz.izq, clave, pos)
         pos = buscar_nom(raiz.der, clave, pos)
@@ -93,20 +91,16 @@ def buscar_nom(raiz, clave, pos = []):
 ruta = 'Evaluación 4/Ejercicios/pokemon.csv'
 nombres, numeros, tipos = crear_arboles(ruta)
 
-s = buscar_num(numeros, '6')
-g = buscar_num(numeros, '-9')
+s = buscar_num(numeros, '6', pos = [])
+g = buscar_num(numeros, '-9', pos = [])
 
-l = buscar_nom(nombres, 'Zorz')
-r = buscar_nom(nombres, 'Bee')
+l = buscar_nom(nombres, 'Zorz', pos = [])
+r = buscar_nom(nombres, 'Bee', pos = [])
 
-for i in r:
-    print(print_nodo(ruta, i))
+fuego = buscar_tipo(tipos, 'Fire', pos = [])
+agua = buscar_tipo(tipos, 'Water', pos = [])
+planta = buscar_tipo(tipos, 'Grass', pos = [])
+elec = buscar_tipo(tipos, 'Electric', pos = [])
 
-fuego = buscar_tipo(tipos, 'Fire')
-agua = buscar_tipo(tipos, 'Water')
-planta = buscar_tipo(tipos, 'Grass')
-elec = buscar_tipo(tipos, 'Electric')
-
-print(len(fuego))
-for f in fuego:
-    print(print_nombres(ruta, f))
+print(print_nodo(ruta, l))
+print(print_nodo(ruta, r))
