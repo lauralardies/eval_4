@@ -14,7 +14,7 @@ def arbol(raiz, info, linea):
     '''
     if raiz is None:
         raiz = NodoArbol(info, linea)
-    elif info > raiz.info:
+    elif info >= raiz.info:
         raiz.der = arbol(raiz.der, info, linea)
     else:
         raiz.izq = arbol(raiz.izq, info, linea)
@@ -79,6 +79,26 @@ def filtrar(raiz, clave, pos):
         pos = filtrar(raiz.izq, clave, pos)
         pos = filtrar(raiz.der, clave, pos)
     return pos
+
+# Apartado 5
+def ordenar_arbol(raiz, lista_ordenada):
+    if raiz.izq:
+        lista_ordenada = ordenar_arbol(raiz.izq, lista_ordenada)
+    lista_ordenada.append(raiz) 
+    if raiz.der:
+        lista_ordenada = ordenar_arbol(raiz.der, lista_ordenada)
+    return lista_ordenada
+
+def cambiar_arbol(ruta, lista):
+    raiz = None
+    for l in lista:
+        with open(ruta, 'r') as archivo:
+            lector = reader(archivo)
+            for i, fila in enumerate(lector):
+                if i == l.linea - 1:
+                    l.info = fila[0]
+        raiz = arbol(raiz, l.info, l.linea)
+    return raiz
 
 # Apartado 6
 def buscar_tipo(ruta, dato):

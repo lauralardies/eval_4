@@ -72,7 +72,10 @@ def iniciar():
                             break
 
                 elif apartado == '4':
-                    print('Apartado no hecho')
+                    nombres_ordenados = ejercicio2.ordenar_arbol(nombres, lista_ordenada = [])
+                    nom_num = ejercicio2.cambiar_arbol(ruta, nombres_ordenados)
+                    nom_num_ordenados = ejercicio2.ordenar_arbol(nom_num, lista_ordenada = [])
+                    print('\n', ejercicio2.print_info(ruta, nom_num_ordenados, nombre = True))
 
                 elif apartado == '5':
                     print('Apartado no hecho')
