@@ -1,38 +1,32 @@
 from csv import reader
 
 class NodoArbol:
-    def __init__(self, info):
+    def __init__(self, info, linea):
         self.izq = None
         self.der = None
         self.info = info
+        self.linea = linea
         
-def arbol_alpha(raiz, info):
+def arbol(raiz, info, linea):
     if raiz is None:
-        raiz = NodoArbol(info)
+        raiz = NodoArbol(info, linea)
     elif info > raiz.info:
-        raiz.der = arbol_alpha(raiz.der, info)
+        raiz.der = arbol(raiz.der, info, linea)
     else:
-        raiz.izq = arbol_alpha(raiz.izq, info)
-    return raiz
-
-def arbol_num(raiz, info):
-    if raiz is None:
-        raiz = NodoArbol(info)
-    elif info < raiz.info:
-        raiz.der = arbol_num(raiz.der, info)
-    else:
-        raiz.izq = arbol_num(raiz.izq, info)
+        raiz.izq = arbol(raiz.izq, info, linea)
     return raiz
 
 def crear_arboles(ruta):
     with open(ruta, 'r') as archivo:
         lector = reader(archivo)
         nombres, numeros, tipos = None, None, None
+        linea = 0
         for i in lector:
+            linea = linea + 1
             if i != ['#', 'Name', 'Type 1', 'Type 2', 'Total', 'HP', 'Attack', 'Defense', 'Sp. Atk', 'Sp. Def', 'Speed', 'Generation', 'Legendary']:
-                nombres = arbol_alpha(nombres, i[1])
-                numeros = arbol_num(numeros, i[0])
-                tipos = arbol_alpha(tipos, i[2])
+                nombres = arbol(nombres, i[1], linea)
+                numeros = arbol(numeros, i[0], linea)
+                tipos = arbol(tipos, i[2], linea)
     return nombres, numeros, tipos
 
 def print_info(ruta, lista, nombre):
@@ -42,18 +36,18 @@ def print_info(ruta, lista, nombre):
     for l in lista:
         with open(ruta, 'r') as archivo:
             lector = reader(archivo)
-            for i in lector:
-                for j in range(len(i)):
-                    if i[j] == l.info:
-                        if nombre == True and j != 3:
-                            sol.append(i[1])
-                            break
-                        elif nombre == False:
-                            sol.append('Pokémon número {}, {} de tipo {} y débil ante {} con\nTotal: {}.\nHP: {}.\nAttack: {}.\nDefense: {}.\nSp. Atk: {}.\nSp. Def: {}.\nSpeed: {}.\nGeneration: {}.\nLegendary: {}.'.format(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9], i[10], i[11], i[12]))
-                            break
-                        else:
-                            break
-    return sol
+            for i, fila in enumerate(lector):
+                if i == l.linea - 1:
+                    if nombre == True:
+                        sol.append(fila[1])
+                        break
+                    elif nombre == False:
+                        sol.append('Pokémon número {}, {} de tipo {} y débil ante {} con\nTotal: {}.\nHP: {}.\nAttack: {}.\nDefense: {}.\nSp. Atk: {}.\nSp. Def: {}.\nSpeed: {}.\nGeneration: {}.\nLegendary: {}.'.format(fila[0], fila[1], fila[2], fila[3], fila[4], fila[5], fila[6], fila[7], fila[8], fila[9], fila[10], fila[11], fila[12]))
+                        break
+    if nombre == True:
+        return ', '.join(sol)
+    
+    return '\n\n'.join(sol)
 
 def buscar(raiz, clave, pos):
     if raiz is not None:
@@ -65,7 +59,7 @@ def buscar(raiz, clave, pos):
 
 def filtrar(raiz, clave, pos):
     if raiz is not None:
-        if raiz.info.startswith(clave) and raiz not in pos:
+        if clave in raiz.info and raiz not in pos:
             pos.append(raiz)
         pos = filtrar(raiz.izq, clave, pos)
         pos = filtrar(raiz.der, clave, pos)
@@ -80,12 +74,3 @@ def valores_unicos(raiz, unicos):
         unicos = valores_unicos(raiz.izq, unicos)
         unicos = valores_unicos(raiz.der, unicos)
     return unicos
-
-def debil(ruta, raiz):
-    sol = []
-    with open(ruta, 'r') as archivo:
-        lector = reader(archivo)
-        for i in lector:
-            if i[3] == raiz.info:
-                sol.append(i[1])
-    return sol

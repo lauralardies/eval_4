@@ -46,29 +46,29 @@ def iniciar():
                 print('[7] Mostrar todos los tipos de Pokémons y cuántos hay de cada tipo.')
                 print('[8] Hacer otro ejercicio.')
 
-                ruta = 'Evaluación 4/Ejercicios/pokemon.csv'
+                ruta = 'Evaluación 4/Ejercicios/pokemon_Copia.csv'
                 nombres, numeros, tipos = ejercicio2.crear_arboles(ruta)
                 apartado = input('> ')
 
                 if apartado == '1':
                     print('\nIntroduce el número de Pokémon que quiere buscar:')
                     n = input('> ')
-                    print('\n', '\n\n'.join(ejercicio2.print_info(ruta, ejercicio2.buscar(numeros, n, pos = []), False)), '\n')
+                    print('\n', ejercicio2.print_info(ruta, ejercicio2.buscar(numeros, n, pos = []), False), '\n')
                     
                 elif apartado == '2':
                     print('\nIntroduce el nombre de Pokémon que quiere buscar:')
                     n = input('> ')
-                    print('\n', '\n\n'.join(ejercicio2.print_info(ruta, ejercicio2.filtrar(nombres, n, pos = []), False)), '\n')
+                    print('\n', ejercicio2.print_info(ruta, ejercicio2.filtrar(nombres, n, pos = []), False), '\n')
 
                 elif apartado == '3':
                     while True:
                         print('\n¿Qué tipo de Pokémon quiere mostrar? ¿Fire? ¿Water? ¿Grass? ¿Electric?')
                         print('Inserta el tipo de Pokémon que quiere mostrar de los nombrados anteriormente:')
                         tipo = input('> ')
-                        if len(ejercicio2.buscar(tipos, tipo, pos = [])) is 0:
+                        if tipo != 'Fire' and tipo != 'Water' and tipo != 'Grass' and tipo != 'Electric':
                             print('No ha insertado un tipo de Pokémon correcto, inténtelo de nuevo.')
                         else:
-                            print('\n', ', '.join(ejercicio2.print_info(ruta, ejercicio2.buscar(tipos, tipo, pos = []), True)), '.\n')
+                            print('\n', ejercicio2.print_info(ruta, ejercicio2.buscar(tipos, tipo, pos = []), True), '.\n')
                             break
 
                 elif apartado == '4':
@@ -78,9 +78,16 @@ def iniciar():
                     print('Apartado no hecho')
 
                 elif apartado == '6':
-                    print('\n¿Frente a qué Pokémon quiere ver que sean débiles otros Pokémons? ¿Jolteon? ¿Lycanroc? ¿Tyrantrum?')
-                    print('Inserta un Pokémon que quiere de los nombrados anteriormente:')
-                    pok = input('> ')
+                    while True:
+                        print('\n¿Frente a qué Pokémon quiere ver que sean débiles otros Pokémons? ¿Jolteon? ¿Lycanroc? ¿Tyrantrum?')
+                        print('Inserta un Pokémon de los nombrados anteriormente:')
+                        pok = input('> ')
+                        if pok != 'Jolteon' and pok != 'Lycanroc' and pok != 'Tyrantrum':
+                            print('No ha insertado un Pokémon de los mencionados anteriormente. Inténtelo de nuevo')
+                        else:
+                            nombre = ejercicio2.buscar(nombres, pok, pos = [])
+                            tipo = ejercicio2.relacion_arboles(ruta, nombre, tipos, 2)
+                            print(ejercicio2.debil(ruta, tipo))
 
                 elif apartado == '7':
                     dictio = ejercicio2.valores_unicos(tipos, unicos = {})
