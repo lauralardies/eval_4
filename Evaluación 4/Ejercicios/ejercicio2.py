@@ -92,12 +92,14 @@ def buscar_nom(raiz, clave, pos):
         pos = buscar_nom(raiz.der, clave, pos)
     return pos
 
-def valores_unicos(raiz, unicos):
+def tipos_unicos(raiz, unicos):
     if raiz is not None:
         if raiz.tipo not in unicos:
-            unicos.append(raiz.tipo)
-        unicos = valores_unicos(raiz.izq, unicos)
-        unicos = valores_unicos(raiz.der, unicos)
+            unicos[raiz.tipo] = 1
+        else:
+            unicos[raiz.tipo] = unicos[raiz.tipo] + 1
+        unicos = tipos_unicos(raiz.izq, unicos)
+        unicos = tipos_unicos(raiz.der, unicos)
     return unicos
 
 ruta = 'Evaluación 4/Ejercicios/pokemon.csv'
@@ -114,4 +116,4 @@ agua = buscar_tipo(tipos, 'Water', pos = [])
 planta = buscar_tipo(tipos, 'Grass', pos = [])
 elec = buscar_tipo(tipos, 'Electric', pos = [])
 
-print(', '.join(valores_unicos(tipos, unicos = [])), '.\n')
+print(tipos_unicos(tipos, unicos = {}))

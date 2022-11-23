@@ -81,8 +81,11 @@ def iniciar():
                     print('Apartado no hecho')
 
                 elif apartado == '7':
-                    print(', '.join(ejercicio2.valores_unicos(tipos, unicos = [])), '.\n')
-
+                    dictio = ejercicio2.tipos_unicos(tipos, unicos = {})
+                    print('\nLos tipos de Pokémons son los siguientes:')
+                    for tipo in dictio:
+                        print(tipo, ':', dictio[tipo], '.')
+                    print('\n')
 
                 elif apartado == '8':
                     print('\nVolviendo al menú principal...\n')
