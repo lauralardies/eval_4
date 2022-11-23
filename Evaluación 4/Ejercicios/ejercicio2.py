@@ -49,20 +49,24 @@ def crear_arboles(ruta):
     return nombres, numeros, tipos
 
 def print_nodo(ruta, lista):
+    sol = []
     if len(lista) == 0:
         return 'No se ha encontrado ningún Pokémon con los datos aportados.'
     for l in lista:
         with open(ruta, 'r') as archivo:
             lector = reader(archivo)
             for i in lector:
-                if i[0] == l.num:
-                    return 'Pokémon número {}, {} de tipo {} y {} con\nTotal: {}\nHP: {}\nAttack: {}\nDefense: {}\nSp. Atk: {}\nSp. Def: {}\nSpeed: {}\nGeneration: {}\nLegendary: {}'.format(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9], i[10], i[11], i[12])
+                if i[1] == l.nombre:
+                    sol.append('Pokémon número {}, {} de tipo {} y {} con\nTotal: {}\nHP: {}\nAttack: {}\nDefense: {}\nSp. Atk: {}\nSp. Def: {}\nSpeed: {}\nGeneration: {}\nLegendary: {}'.format(i[0], i[1], i[2], i[3], i[4], i[5], i[6], i[7], i[8], i[9], i[10], i[11], i[12]))
+    return '\n\n'.join(sol)
 
 def print_nombre(lista):
+    sol = []
     if len(lista) == 0:
         return 'No se ha encontrado ningún Pokémon con los datos aportados.'
     for l in lista:
-        return l.nombre
+        sol.append(l.nombre)
+    return ', '.join(sol)
 
 def buscar_tipo(raiz, clave, pos):
     if raiz is not None:
