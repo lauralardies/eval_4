@@ -86,8 +86,8 @@ def iniciar():
                             print('No ha insertado un Pokémon de los mencionados anteriormente. Inténtelo de nuevo')
                         else:
                             nombre = ejercicio2.buscar(nombres, pok, pos = [])
-                            tipo = ejercicio2.relacion_arboles(ruta, nombre, tipos, 2)
-                            print(ejercicio2.debil(ruta, tipo))
+                            tipo = ejercicio2.buscar_tipo(ruta, nombre[0])
+                            print(ejercicio2.print_info(ruta, ejercicio2.debil(ruta, tipo), nombre = True))
 
                 elif apartado == '7':
                     dictio = ejercicio2.valores_unicos(tipos, unicos = {})

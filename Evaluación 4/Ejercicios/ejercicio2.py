@@ -74,3 +74,22 @@ def valores_unicos(raiz, unicos):
         unicos = valores_unicos(raiz.izq, unicos)
         unicos = valores_unicos(raiz.der, unicos)
     return unicos
+
+def buscar_tipo(ruta, dato):
+    with open(ruta, 'r') as archivo:
+        lector = reader(archivo)
+        for i, fila in enumerate(lector):
+            if i == dato.linea - 1:
+                return fila[2]
+
+def debil(ruta, tipo):
+    with open(ruta, 'r') as archivo:
+        lector = reader(archivo)
+        debiles = None
+        linea = 0
+        for i in lector:
+            linea = linea + 1
+            if i != ['#', 'Name', 'Type 1', 'Type 2', 'Total', 'HP', 'Attack', 'Defense', 'Sp. Atk', 'Sp. Def', 'Speed', 'Generation', 'Legendary']:
+                debiles = arbol(debiles, i[3], linea)
+    sol = buscar(debiles, tipo, pos = [])
+    return sol
