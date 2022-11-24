@@ -57,6 +57,21 @@ def print_info(ruta, lista, nombre):
     
     return '\n\n'.join(sol)
 
+# Calculamos altura del árbol
+def altura(raiz):
+    '''
+    Función que nos permite conocer la altura de nuestro árbol
+    '''
+    if raiz is None:
+        return 0
+    else:
+        altura_izq = altura(raiz.izq)
+        altura_der = altura(raiz.der)
+        if altura_izq > altura_der:
+            return altura_izq + 1
+        else:
+            return altura_der + 1
+
 # Apartados 1, 2 y 3
 def buscar(raiz, clave, pos):
     '''
@@ -83,7 +98,7 @@ def filtrar(raiz, clave, pos):
 # Apartado 4
 def ordenar_arbol(raiz, lista_ordenada):
     '''
-    Generamos una lista ordenada ascendentemente que incluye todos los nodos del árbol
+    Función que genera una lista ordenada ascendentemente incluyendo todos los nodos del árbol
     '''
     if raiz.izq:
         lista_ordenada = ordenar_arbol(raiz.izq, lista_ordenada)
@@ -94,7 +109,7 @@ def ordenar_arbol(raiz, lista_ordenada):
 
 def cambiar_arbol(ruta, lista):
     '''
-    A partir de una lista de nodos, cambiamos su info y luego creamos un árbol con el nuevo info
+    Función que crea un árbol a partir de una lista de nodos cambiando su info
     '''
     raiz = None
     for l in lista:
@@ -106,10 +121,35 @@ def cambiar_arbol(ruta, lista):
         raiz = arbol(raiz, l.info, l.linea)
     return raiz
 
+# Apartado 5
+def listado_de_nivel(raiz, nivel, listado):
+    '''
+    Función que devuelve una lista que incluye todos los nodos de un mismo nivel
+    '''
+    if raiz is None:
+        return listado
+    if nivel == 1:
+        listado.append(raiz)
+    elif nivel > 1:
+        listado = listado_de_nivel(raiz.izq, nivel - 1, listado)
+        listado = listado_de_nivel(raiz.der, nivel - 1, listado)
+    return listado
+
+def listado_por_nivel(raiz):
+    '''
+    Función que devuelve una lista que incluye los nodos de todos los niveles del árbol
+    '''
+    lista = []
+    h = altura(raiz)
+    for i in range(1, h + 1):
+        listado = listado_de_nivel(raiz, i, listado = [])
+        lista.append(listado)
+    return lista
+
 # Apartado 6
 def buscar_tipo(ruta, dato):
     '''
-    A partir de otro dato como por ejemplo el nombre, buscamos el tipo de dicho Pokémon
+    Función que a partir de un dato encuentra su correspondiente tipo de Pokémon
     '''
     with open(ruta, 'r') as archivo:
         lector = reader(archivo)
@@ -119,7 +159,7 @@ def buscar_tipo(ruta, dato):
 
 def debil(ruta, tipo):
     '''
-    A partir de un tipo de Pokémon, analizamos qué Pokémons son débiles a este tipo 
+    Función que analiza qué Pokémons son débiles ante cierto tipo de Pokémon 
     '''
     with open(ruta, 'r') as archivo:
         lector = reader(archivo)
@@ -135,8 +175,8 @@ def debil(ruta, tipo):
 # Apartado 7
 def valores_unicos(raiz, unicos):
     '''
-    Crea un diccionario de los valores de la raiz cuyos valores son el número de ocurrencias que hay en el csv
-    Al tratarse de un diccionario, nuestros keys no se repiten y conseguimos los valores únicos
+    Función que crea un diccionario de los valores de la raiz cuyos valores son el número de ocurrencias que hay en el csv
+    Al tratarse de un diccionario, nuestros keys no se repiten y obtenemos los valores únicos
     '''
     if raiz is not None:
         if raiz.info not in unicos:

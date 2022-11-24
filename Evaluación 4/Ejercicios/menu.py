@@ -46,7 +46,7 @@ def iniciar():
                 print('[7] Mostrar todos los tipos de Pokémons y cuántos hay de cada tipo.')
                 print('[8] Hacer otro ejercicio.')
 
-                ruta = 'Evaluación 4/Ejercicios/pokemon_Copia.csv'
+                ruta = 'Evaluación 4/Ejercicios/pokemon.csv'
                 nombres, numeros, tipos = ejercicio2.crear_arboles(ruta)
                 apartado = input('> ')
 
@@ -68,17 +68,22 @@ def iniciar():
                         if tipo != 'Fire' and tipo != 'Water' and tipo != 'Grass' and tipo != 'Electric':
                             print('No ha insertado un tipo de Pokémon correcto, inténtelo de nuevo.')
                         else:
-                            print('\n', ejercicio2.print_info(ruta, ejercicio2.buscar(tipos, tipo, pos = []), True), '.\n')
+                            print('\nLos Pokémon tipo ', tipo, ' son:')
+                            print(ejercicio2.print_info(ruta, ejercicio2.buscar(tipos, tipo, pos = []), True), '\n')
                             break
 
                 elif apartado == '4':
                     nombres_ordenados = ejercicio2.ordenar_arbol(nombres, lista_ordenada = [])
                     nom_num = ejercicio2.cambiar_arbol(ruta, nombres_ordenados)
                     nom_num_ordenados = ejercicio2.ordenar_arbol(nom_num, lista_ordenada = [])
-                    print('\n', ejercicio2.print_info(ruta, nom_num_ordenados, nombre = True))
+                    print('\n', ejercicio2.print_info(ruta, nom_num_ordenados, nombre = True), '.\n')
 
                 elif apartado == '5':
-                    print('Apartado no hecho')
+                    lista = ejercicio2.listado_por_nivel(nombres)
+                    print('\n')
+                    for i in range(len(lista)):
+                        print('Nivel ', i+1, ':', ejercicio2.print_info(ruta, lista[i], nombre = True), '.')
+                    print('\n')
 
                 elif apartado == '6':
                     while True:
@@ -90,7 +95,9 @@ def iniciar():
                         else:
                             nombre = ejercicio2.buscar(nombres, pok, pos = [])
                             tipo = ejercicio2.buscar_tipo(ruta, nombre[0])
-                            print(ejercicio2.print_info(ruta, ejercicio2.debil(ruta, tipo), nombre = True))
+                            print('\nLos Pokémons débiles ante ', pok, 'son:')
+                            print(ejercicio2.print_info(ruta, ejercicio2.debil(ruta, tipo), nombre = True), '.\n')
+                            break
 
                 elif apartado == '7':
                     dictio = ejercicio2.valores_unicos(tipos, unicos = {})
