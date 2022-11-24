@@ -19,8 +19,6 @@ def iniciar():
             simbolos = ['A', 'F', '1', '3', '0', 'M', 'T']
             frecuencias = [0.2, 0.17, 0.13, 0.21, 0.05, 0.09, 0.15]
             raiz = ejercicio1.arbol_huffman(simbolos, frecuencias)
-            print('\nMi tabla de símbolos es', simbolos)
-            print('Con sus correspondientes frecuencias', frecuencias)
             print('\nObtenemos los siguientes códigos por cada símbolo:')
             print('A: ', ejercicio1.comprimir('A', raiz))
             print('F: ', ejercicio1.comprimir('F', raiz))
@@ -30,8 +28,27 @@ def iniciar():
             print('M: ', ejercicio1.comprimir('M', raiz))
             print('T: ', ejercicio1.comprimir('T', raiz))
             print('\nSi codificamos la palabra M0T0 obtenemos el siguiente resultado:', ejercicio1.comprimir('M0T0', raiz))
-            print('Si decodificamos ese código obtenemos la palabra inicial:', ejercicio1.descomprimir('101110101101010', raiz), '\n')
+            print('Si decodificamos ese código obtenemos la palabra inicial:', ejercicio1.descomprimir(ejercicio1.comprimir('M0T0', raiz), raiz), '\n')
 
+            while True:
+                print('¿Quiere codificar algún mensaje? [Y]/N')
+                eleccion = input('> ')
+                if eleccion.upper() == 'N':
+                    print('\nVolviendo al menú principal...\n')
+                    break
+                else:
+                    print('\nMi tabla de símbolos es', simbolos)
+                    print('\nIntroduce un mensaje con los símbolos de la tabla')
+                    mensaje = input('> ')
+                    for m in mensaje:
+                        if m not in simbolos:
+                            print('\nNo ha introducido un string válido.\n')
+                            break
+                        else:
+                            print('\nSi codificamos la palabra ', mensaje, ' obtenemos el siguiente resultado:', ejercicio1.comprimir(mensaje, raiz))
+                            print('Si decodificamos ese código obtenemos la palabra inicial:', ejercicio1.descomprimir(ejercicio1.comprimir(mensaje, raiz), raiz), '\n')
+                            break
+                        
         elif opcion == '2':
             print('\nBienvenido al ejericio 2...')
             print('---------------------------')
