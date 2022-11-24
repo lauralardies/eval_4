@@ -94,9 +94,12 @@ def iniciar():
                             print('No ha insertado un Pokémon de los mencionados anteriormente. Inténtelo de nuevo')
                         else:
                             nombre = ejercicio2.buscar(nombres, pok, pos = [])
-                            tipo = ejercicio2.buscar_tipo(ruta, nombre[0])
-                            print('\nLos Pokémons débiles ante ', pok, 'son:')
-                            print(ejercicio2.print_info(ruta, ejercicio2.debil(ruta, tipo), nombre = True), '.\n')
+                            if len(nombre) != 0:
+                                tipo = ejercicio2.buscar_tipo(ruta, nombre[0])
+                                print('\nLos Pokémons débiles ante ', pok, 'son:')
+                                print(ejercicio2.print_info(ruta, ejercicio2.debil(ruta, tipo), nombre = True), '.\n')
+                            else:
+                                print('\nEl Pokémon nombrado no se ecuentra en nuestros datos.\n')
                             break
 
                 elif apartado == '7':
