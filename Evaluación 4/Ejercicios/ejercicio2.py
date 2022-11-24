@@ -80,8 +80,11 @@ def filtrar(raiz, clave, pos):
         pos = filtrar(raiz.der, clave, pos)
     return pos
 
-# Apartado 5
+# Apartado 4
 def ordenar_arbol(raiz, lista_ordenada):
+    '''
+    Generamos una lista ordenada ascendentemente que incluye todos los nodos del árbol
+    '''
     if raiz.izq:
         lista_ordenada = ordenar_arbol(raiz.izq, lista_ordenada)
     lista_ordenada.append(raiz) 
@@ -90,6 +93,9 @@ def ordenar_arbol(raiz, lista_ordenada):
     return lista_ordenada
 
 def cambiar_arbol(ruta, lista):
+    '''
+    A partir de una lista de nodos, cambiamos su info y luego creamos un árbol con el nuevo info
+    '''
     raiz = None
     for l in lista:
         with open(ruta, 'r') as archivo:
