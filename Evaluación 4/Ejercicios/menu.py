@@ -135,7 +135,10 @@ def iniciar():
         
         elif opcion == '3':
             print('\nBienvenido al ejericio 3...')
-            print('Ejercicio no hecho')
+            maravillas = ejercicio3.Grafo()
+            maravillas = ejercicio3.crear_grafo(maravillas)
+            aristas_azules = ejercicio3.matriz_adyacencia(maravillas, maravillas.inicio, 'Azul')
+            aristas_amarillas = ejercicio3.matriz_adyacencia(maravillas, maravillas.inicio, 'Amarilla')
 
         elif opcion == '4':
             print('\nSaliendo...')

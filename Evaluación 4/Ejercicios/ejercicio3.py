@@ -1,3 +1,5 @@
+import pandas as pd
+
 class NodoArista():
     def __init__(self, peso, color, destino):
         self.peso = peso
@@ -38,6 +40,7 @@ def insertar_vertice(grafo, nombre, pais, tipo):
             act = act.sig
         nodo.sig = act
         ant.sig = nodo
+    grafo.tam = grafo.tam + 1
     return grafo
 
 def insertar_arista(grafo, origen, peso, color, destino):
@@ -71,13 +74,13 @@ def buscar_vertice(grafo, dato):
     return sol
 
 def crear_grafo(grafo):
-    grafo = insertar_vertice(grafo, 'Chichen Itzá', ['México'], 'Arquetectónica')
-    grafo = insertar_vertice(grafo, 'La Gran Muralla China', ['China'], 'Arquetectónica')
-    grafo = insertar_vertice(grafo, 'Machu Picchu', ['Perú'], 'Arquetectónica')
-    grafo = insertar_vertice(grafo, 'Taj Majal', ['India'], 'Arquetectónica')
-    grafo = insertar_vertice(grafo, 'El Cristo Redentor', ['Brasil'], 'Arquetectónica')
-    grafo = insertar_vertice(grafo, 'La Ciudad de Petra', ['Jordania'], 'Arquetectónica')
-    grafo = insertar_vertice(grafo, 'El Coliseo de Roma', ['Italia'], 'Arquetectónica')
+    grafo = insertar_vertice(grafo, 'Chichen Itzá', ['México'], 'Arquitectónica')
+    grafo = insertar_vertice(grafo, 'La Gran Muralla China', ['China'], 'Arquitectónica')
+    grafo = insertar_vertice(grafo, 'Machu Picchu', ['Perú'], 'Arquitectónica')
+    grafo = insertar_vertice(grafo, 'Taj Majal', ['India'], 'Arquitectónica')
+    grafo = insertar_vertice(grafo, 'El Cristo Redentor', ['Brasil'], 'Arquitectónica')
+    grafo = insertar_vertice(grafo, 'La Ciudad de Petra', ['Jordania'], 'Arquitectónica')
+    grafo = insertar_vertice(grafo, 'El Coliseo de Roma', ['Italia'], 'Arquitectónica')
 
     grafo = insertar_vertice(grafo, 'Cataratas de Iguazú', ['Argentina'], 'Natural')
     grafo = insertar_vertice(grafo, 'Montaña de Mesa', ['Sudáfrica'], 'Natural')
@@ -93,6 +96,20 @@ def crear_grafo(grafo):
 
     return grafo 
 
+def matriz_adyacencia(grafo, nodo, color):
+    indices = ['Chichen Itzá', 'La Gran Muralla China', 'Machu Picchu', 'Taj Majal', 'El Cristo Redentor', 'La Ciudad de Petra', 'El Coliseo de Roma', 'Cataratas de Iguazú', 'Montaña de Mesa', 'Amazonia', 'Bahía de Ha-Long', 'Isla Jeju', 'Parque Nacional de Komodo', 'Río Subterráneo de Puerto Princesa']
+    matriz = pd.DataFrame(0, index = indices, columns = indices)
+
+    aux = nodo.adyacentes.inicio
+    aristas = []
+    while aux is not None:
+        if aux.color == color and aux not in aristas:
+            aristas.append(aux)
+            aux = buscar_vertice(grafo, aux.destino)[0].adyacentes.inicio
+        else:
+            aux = aux.sig
+    return matriz
+
 def crear_arista_amarilla(grafo):
     v = buscar_vertice(grafo, 'Arquitectónica')
     l = [x.nombre for x in v]
@@ -103,7 +120,7 @@ def crear_arista_amarilla(grafo):
         except IndexError:
             origen = l[-1]
             destino = l[0]
-        grafo = insertar_arista(grafo, origen, '90', 'Verde', destino)
+        grafo = insertar_arista(grafo, origen, '90', 'Amarilla', destino)
     return grafo
 
 def crear_arista_azul(grafo):
@@ -116,7 +133,7 @@ def crear_arista_azul(grafo):
         except IndexError:
             origen = l[-1]
             destino = l[0]
-        grafo = insertar_arista(grafo, origen, '90', 'Verde', destino)
+        grafo = insertar_arista(grafo, origen, '90', 'Azul', destino)
     return grafo
 
 def crear_arista_verde(grafo):
@@ -137,6 +154,3 @@ def crear_arista_verde(grafo):
                 destino = maravilla_pais[llave][0]
             grafo = insertar_arista(grafo, origen, '90', 'Verde', destino)
     return grafo
-
-maravillas = Grafo()
-maravillas = crear_grafo(maravillas)
